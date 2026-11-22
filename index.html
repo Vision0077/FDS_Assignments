@@ -6,8 +6,9 @@
 </head>
 <body>
 <h1>DSA Lab Programs (C++, compiled and tested)</h1>
-<p>Compile: <code>g++ pNN.cpp -o pNN &amp;&amp; ./pNN</code>. Numbering follows your question sheet (no 8 or 10 were given).</p>
+<p><strong>Ubuntu Setup &amp; Run:</strong> Install compiler with <code>sudo apt update &amp;&amp; sudo apt install g++</code>. Save each program as <code>pNN.cpp</code> and run <code>g++ pNN.cpp -o pNN &amp;&amp; ./pNN</code>. Numbering follows your question sheet (no 8 or 10 were given).</p>
 <h2>1. Factorial and Fibonacci (recursive and non-recursive)</h2>
+<p>Run in Ubuntu: <code>g++ p01.cpp -o p01 &amp;&amp; ./p01</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 long long factR(int n){ return n&lt;=1 ? 1 : n*factR(n-1); }
@@ -26,6 +27,7 @@ int main(){
     cout&lt;&lt;&quot;\nFibonacci (iterative): &quot;; fibI(n); cout&lt;&lt;&quot;\n&quot;;
 }</code></pre>
 <h2>2. Menu-driven calculator</h2>
+<p>Run in Ubuntu: <code>g++ p02.cpp -o p02 &amp;&amp; ./p02</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 int main(){
@@ -47,6 +49,7 @@ int main(){
     }while(1);
 }</code></pre>
 <h2>3. Cricket scores: combine, total, highest</h2>
+<p>Run in Ubuntu: <code>g++ p03.cpp -o p03 &amp;&amp; ./p03</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 int main(){
@@ -61,6 +64,7 @@ int main(){
     cout&lt;&lt;&quot;\nTotal = &quot;&lt;&lt;total&lt;&lt;&quot;\nHighest = &quot;&lt;&lt;a[i]&lt;&lt;&quot; (player &quot;&lt;&lt;i+1&lt;&lt;&quot;)\n&quot;;
 }</code></pre>
 <h2>4. Naive string matching</h2>
+<p>Run in Ubuntu: <code>g++ p04.cpp -o p04 &amp;&amp; ./p04</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 int main(){
@@ -76,6 +80,7 @@ int main(){
     if(!found) cout&lt;&lt;&quot;No match\n&quot;;
 }</code></pre>
 <h2>5. Student database: Bubble, Insertion, Quick sort, SGPA search, binary name search</h2>
+<p>Run in Ubuntu: <code>g++ p05.cpp -o p05 &amp;&amp; ./p05</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 struct S{ int r; string n; float g; };
@@ -129,6 +134,7 @@ int main(){
     }while(c);
 }</code></pre>
 <h2>6. Queue using array: print job scheduling</h2>
+<p>Run in Ubuntu: <code>g++ p06.cpp -o p06 &amp;&amp; ./p06</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 const int N=5;
@@ -153,6 +159,7 @@ int main(){
     }while(ch);
 }</code></pre>
 <h2>7. Stack using linked list: Undo/Redo</h2>
+<p>Run in Ubuntu: <code>g++ p07.cpp -o p07 &amp;&amp; ./p07</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 struct N{ string d; N* nx; };
@@ -170,6 +177,7 @@ int main(){
     }while(c);
 }</code></pre>
 <h2>9. Infix to prefix/postfix and evaluation</h2>
+<p>Run in Ubuntu: <code>g++ p09.cpp -o p09 &amp;&amp; ./p09</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 int p(char c){ return c==&#x27;^&#x27;?3 : (c==&#x27;*&#x27;||c==&#x27;/&#x27;)?2 : (c==&#x27;+&#x27;||c==&#x27;-&#x27;)?1 : 0; }
@@ -220,6 +228,7 @@ int main(){
     cout&lt;&lt;&quot;Postfix value: &quot;&lt;&lt;evalPost(po)&lt;&lt;&quot;\nPrefix value : &quot;&lt;&lt;evalPre(pr)&lt;&lt;&quot;\n&quot;;
 }</code></pre>
 <h2>11. Singly linked list: music playlist</h2>
+<p>Run in Ubuntu: <code>g++ p11.cpp -o p11 &amp;&amp; ./p11</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 struct N{ string s; N* nx; };
@@ -255,6 +264,7 @@ int main(){
     }while(c);
 }</code></pre>
 <h2>12. Circular doubly linked list: photo gallery</h2>
+<p>Run in Ubuntu: <code>g++ p12.cpp -o p12</code></p>
 <pre><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 struct N{ string s; N *nx, *pv; };
