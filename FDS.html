@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DSA Lab Programs (C++)</title>
+</head>
+<body>
+<h1>DSA Lab Programs (C++, compiled and tested)</h1>
+<p>Compile: <code>g++ pNN.cpp -o pNN &amp;&amp; ./pNN</code>. Numbering follows your question sheet (no 8 or 10 were given).</p>
+<h2>1. Factorial and Fibonacci (recursive and non-recursive)</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+long long factR(int n){ return n&lt;=1 ? 1 : n*factR(n-1); }
+long long factI(int n){ long long f=1; for(int i=2;i&lt;=n;i++) f*=i; return f; }
+long long fibR(int n){ return n&lt;2 ? n : fibR(n-1)+fibR(n-2); }
+void fibI(int n){
+    long long a=0,b=1;
+    for(int i=0;i&lt;n;i++){ cout&lt;&lt;a&lt;&lt;&quot; &quot;; long long c=a+b; a=b; b=c; }
+}
+int main(){
+    int n; cout&lt;&lt;&quot;n: &quot;; cin&gt;&gt;n;
+    cout&lt;&lt;&quot;Factorial (recursive): &quot;&lt;&lt;factR(n)&lt;&lt;&quot;\n&quot;;
+    cout&lt;&lt;&quot;Factorial (iterative): &quot;&lt;&lt;factI(n)&lt;&lt;&quot;\n&quot;;
+    cout&lt;&lt;&quot;Fibonacci (recursive): &quot;;
+    for(int i=0;i&lt;n;i++) cout&lt;&lt;fibR(i)&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;&quot;\nFibonacci (iterative): &quot;; fibI(n); cout&lt;&lt;&quot;\n&quot;;
+}</code></pre>
+<h2>2. Menu-driven calculator</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(){
+    int c; double a,b;
+    do{
+        cout&lt;&lt;&quot;\n1.Add 2.Sub 3.Mul 4.Div 5.Mod 6.Power 0.Exit: &quot;; cin&gt;&gt;c;
+        if(c==0) break;
+        cout&lt;&lt;&quot;Enter a b: &quot;; cin&gt;&gt;a&gt;&gt;b;
+        switch(c){
+            case 1: cout&lt;&lt;a+b; break;
+            case 2: cout&lt;&lt;a-b; break;
+            case 3: cout&lt;&lt;a*b; break;
+            case 4: if(b) cout&lt;&lt;a/b; else cout&lt;&lt;&quot;Divide by 0&quot;; break;
+            case 5: if((long long)b) cout&lt;&lt;(long long)a%(long long)b; else cout&lt;&lt;&quot;Mod by 0&quot;; break;
+            case 6: cout&lt;&lt;pow(a,b); break;
+            default: cout&lt;&lt;&quot;Invalid choice&quot;;
+        }
+        cout&lt;&lt;&quot;\n&quot;;
+    }while(1);
+}</code></pre>
+<h2>3. Cricket scores: combine, total, highest</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(){
+    int n,m; cout&lt;&lt;&quot;Players in list1, list2: &quot;; cin&gt;&gt;n&gt;&gt;m;
+    vector&lt;int&gt; a(n), b(m);
+    cout&lt;&lt;&quot;List1 runs: &quot;; for(int &amp;x:a) cin&gt;&gt;x;
+    cout&lt;&lt;&quot;List2 runs: &quot;; for(int &amp;x:b) cin&gt;&gt;x;
+    a.insert(a.end(), b.begin(), b.end());                 // combine
+    int total = accumulate(a.begin(), a.end(), 0);          // total
+    int i = max_element(a.begin(), a.end()) - a.begin();    // highest
+    cout&lt;&lt;&quot;Team: &quot;; for(int x:a) cout&lt;&lt;x&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;&quot;\nTotal = &quot;&lt;&lt;total&lt;&lt;&quot;\nHighest = &quot;&lt;&lt;a[i]&lt;&lt;&quot; (player &quot;&lt;&lt;i+1&lt;&lt;&quot;)\n&quot;;
+}</code></pre>
+<h2>4. Naive string matching</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(){
+    string t,p;
+    cout&lt;&lt;&quot;Text: &quot;;    getline(cin,t);
+    cout&lt;&lt;&quot;Pattern: &quot;; getline(cin,p);
+    int n=t.size(), m=p.size(), found=0;
+    for(int i=0;i+m&lt;=n;i++){
+        int j=0;
+        while(j&lt;m &amp;&amp; t[i+j]==p[j]) j++;
+        if(j==m){ cout&lt;&lt;&quot;Found at index &quot;&lt;&lt;i&lt;&lt;&quot;: &quot;&lt;&lt;t.substr(i,m)&lt;&lt;&quot;\n&quot;; found=1; }
+    }
+    if(!found) cout&lt;&lt;&quot;No match\n&quot;;
+}</code></pre>
+<h2>5. Student database: Bubble, Insertion, Quick sort, SGPA search, binary name search</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct S{ int r; string n; float g; };
+const int N=15;
+S s[N]={{23,&quot;Amit&quot;,8.5},{5,&quot;Neha&quot;,9.1},{41,&quot;Rahul&quot;,7.8},{17,&quot;Sneha&quot;,9.1},{2,&quot;Karan&quot;,8.2},
+        {33,&quot;Pooja&quot;,8.5},{9,&quot;Rohit&quot;,7.2},{28,&quot;Anita&quot;,9.4},{12,&quot;Vikas&quot;,6.9},{36,&quot;Priya&quot;,8.9},
+        {4,&quot;Sagar&quot;,8.2},{19,&quot;Meera&quot;,9.6},{45,&quot;Arjun&quot;,7.8},{8,&quot;Kiran&quot;,8.0},{30,&quot;Divya&quot;,9.0}};
+
+void show(S a[],int n){ for(int i=0;i&lt;n;i++) printf(&quot;%-4d %-8s %.1f\n&quot;,a[i].r,a[i].n.c_str(),a[i].g); }
+
+void bubble(S a[],int n){                       // by roll no, ascending
+    for(int i=0;i&lt;n-1;i++)
+        for(int j=0;j&lt;n-1-i;j++)
+            if(a[j].r&gt;a[j+1].r) swap(a[j],a[j+1]);
+}
+void insertion(S a[],int n){                    // by name, A-Z
+    for(int i=1;i&lt;n;i++){
+        S k=a[i]; int j=i-1;
+        while(j&gt;=0 &amp;&amp; a[j].n&gt;k.n){ a[j+1]=a[j]; j--; }
+        a[j+1]=k;
+    }
+}
+void quick(S a[],int l,int h){                  // by SGPA, descending
+    if(l&gt;=h) return;
+    float p=a[h].g; int i=l-1;
+    for(int j=l;j&lt;h;j++) if(a[j].g&gt;p) swap(a[++i],a[j]);
+    swap(a[i+1],a[h]);
+    quick(a,l,i); quick(a,i+2,h);
+}
+int main(){
+    int c; S t[N];
+    do{
+        cout&lt;&lt;&quot;\n1.Roll call(Bubble) 2.Alphabetical(Insertion) 3.Top 10(Quick) 4.Search SGPA 5.Search name(Binary) 0.Exit: &quot;;
+        cin&gt;&gt;c; copy(s,s+N,t);
+        if(c==1){ bubble(t,N); show(t,N); }
+        else if(c==2){ insertion(t,N); show(t,N); }
+        else if(c==3){ quick(t,0,N-1); show(t,10); }
+        else if(c==4){
+            float g; cout&lt;&lt;&quot;SGPA: &quot;; cin&gt;&gt;g; bool f=0;
+            for(int i=0;i&lt;N;i++) if(fabs(t[i].g-g)&lt;0.01){ show(t+i,1); f=1; }
+            if(!f) cout&lt;&lt;&quot;None\n&quot;;
+        }
+        else if(c==5){                          // binary search (iterative) on sorted names, prefix match
+            string k; cout&lt;&lt;&quot;Name/prefix: &quot;; cin&gt;&gt;k; insertion(t,N);
+            int lo=0, hi=N;
+            while(lo&lt;hi){ int m=(lo+hi)/2; if(t[m].n.compare(0,k.size(),k)&lt;0) lo=m+1; else hi=m; }
+            bool f=0;
+            for(;lo&lt;N &amp;&amp; t[lo].n.compare(0,k.size(),k)==0;lo++){ show(t+lo,1); f=1; }
+            if(!f) cout&lt;&lt;&quot;Not found\n&quot;;
+        }
+    }while(c);
+}</code></pre>
+<h2>6. Queue using array: print job scheduling</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N=5;
+string q[N]; int f=0, r=0, c=0;                 // front, rear, count (circular queue)
+int main(){
+    int ch; string j;
+    do{
+        cout&lt;&lt;&quot;\n1.Add print job 2.Print next job 3.Show queue 0.Exit: &quot;; cin&gt;&gt;ch;
+        if(ch==1){
+            if(c==N) cout&lt;&lt;&quot;Queue full\n&quot;;
+            else { cout&lt;&lt;&quot;Job name: &quot;; cin&gt;&gt;j; q[r]=j; r=(r+1)%N; c++; }
+        }
+        else if(ch==2){
+            if(!c) cout&lt;&lt;&quot;No jobs\n&quot;;
+            else { cout&lt;&lt;&quot;Printing &quot;&lt;&lt;q[f]&lt;&lt;&quot;\n&quot;; f=(f+1)%N; c--; }
+        }
+        else if(ch==3){
+            if(!c) cout&lt;&lt;&quot;Empty&quot;;
+            for(int i=0,k=f;i&lt;c;i++,k=(k+1)%N) cout&lt;&lt;q[k]&lt;&lt;&quot; &quot;;
+            cout&lt;&lt;&quot;\n&quot;;
+        }
+    }while(ch);
+}</code></pre>
+<h2>7. Stack using linked list: Undo/Redo</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct N{ string d; N* nx; };
+void push(N*&amp; t,string s){ t=new N{s,t}; }
+string pop(N*&amp; t){ N* p=t; string s=p-&gt;d; t=p-&gt;nx; delete p; return s; }
+int main(){
+    N *u=0, *r=0;                               // undo stack, redo stack (linked lists)
+    string text, w; int c;
+    do{
+        cout&lt;&lt;&quot;\n1.Type 2.Undo 3.Redo 4.Show 0.Exit: &quot;; cin&gt;&gt;c;
+        if(c==1){ cout&lt;&lt;&quot;Word: &quot;; cin&gt;&gt;w; push(u,text); text+=w+&quot; &quot;; while(r) pop(r); }
+        else if(c==2){ if(u){ push(r,text); text=pop(u); } else cout&lt;&lt;&quot;Nothing to undo\n&quot;; }
+        else if(c==3){ if(r){ push(u,text); text=pop(r); } else cout&lt;&lt;&quot;Nothing to redo\n&quot;; }
+        else if(c==4) cout&lt;&lt;&quot;Text: &quot;&lt;&lt;text&lt;&lt;&quot;\n&quot;;
+    }while(c);
+}</code></pre>
+<h2>9. Infix to prefix/postfix and evaluation</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int p(char c){ return c==&#x27;^&#x27;?3 : (c==&#x27;*&#x27;||c==&#x27;/&#x27;)?2 : (c==&#x27;+&#x27;||c==&#x27;-&#x27;)?1 : 0; }
+
+string post(string s,bool strict){              // infix -&gt; postfix (strict=1 used for prefix trick)
+    stack&lt;char&gt; st; string o;
+    for(char c:s){
+        if(isalnum(c)) o+=c;
+        else if(c==&#x27;(&#x27;) st.push(c);
+        else if(c==&#x27;)&#x27;){ while(st.top()!=&#x27;(&#x27;){ o+=st.top(); st.pop(); } st.pop(); }
+        else{
+            while(!st.empty() &amp;&amp; (strict ? p(st.top())&gt;p(c) : p(st.top())&gt;=p(c))){ o+=st.top(); st.pop(); }
+            st.push(c);
+        }
+    }
+    while(!st.empty()){ o+=st.top(); st.pop(); }
+    return o;
+}
+string prefix(string s){                        // reverse, swap brackets, postfix, reverse
+    reverse(s.begin(),s.end());
+    for(char &amp;c:s) if(c==&#x27;(&#x27;) c=&#x27;)&#x27;; else if(c==&#x27;)&#x27;) c=&#x27;(&#x27;;
+    s=post(s,1); reverse(s.begin(),s.end());
+    return s;
+}
+int ap(int a,int b,char o){ return o==&#x27;+&#x27;?a+b : o==&#x27;-&#x27;?a-b : o==&#x27;*&#x27;?a*b : o==&#x27;/&#x27;?a/b : (int)pow(a,b); }
+
+int evalPost(string s){                         // left -&gt; right
+    stack&lt;int&gt; st;
+    for(char c:s){
+        if(isdigit(c)) st.push(c-&#x27;0&#x27;);
+        else{ int b=st.top(); st.pop(); int a=st.top(); st.pop(); st.push(ap(a,b,c)); }
+    }
+    return st.top();
+}
+int evalPre(string s){                          // right -&gt; left (operands swap order)
+    stack&lt;int&gt; st;
+    for(int i=s.size()-1;i&gt;=0;i--){
+        char c=s[i];
+        if(isdigit(c)) st.push(c-&#x27;0&#x27;);
+        else{ int a=st.top(); st.pop(); int b=st.top(); st.pop(); st.push(ap(a,b,c)); }
+    }
+    return st.top();
+}
+int main(){
+    string e; cout&lt;&lt;&quot;Infix (single-digit numbers, no spaces): &quot;; cin&gt;&gt;e;
+    string po=post(e,0), pr=prefix(e);
+    cout&lt;&lt;&quot;Postfix: &quot;&lt;&lt;po&lt;&lt;&quot;\nPrefix : &quot;&lt;&lt;pr&lt;&lt;&quot;\n&quot;;
+    cout&lt;&lt;&quot;Postfix value: &quot;&lt;&lt;evalPost(po)&lt;&lt;&quot;\nPrefix value : &quot;&lt;&lt;evalPre(pr)&lt;&lt;&quot;\n&quot;;
+}</code></pre>
+<h2>11. Singly linked list: music playlist</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct N{ string s; N* nx; };
+N* h=0;
+void add(string s){                             // insert at end
+    N* n=new N{s,0};
+    if(!h) h=n; else { N* t=h; while(t-&gt;nx) t=t-&gt;nx; t-&gt;nx=n; }
+}
+void del(string s){
+    N *t=h, *p=0;
+    while(t &amp;&amp; t-&gt;s!=s){ p=t; t=t-&gt;nx; }
+    if(!t){ cout&lt;&lt;&quot;Song not found\n&quot;; return; }
+    if(p) p-&gt;nx=t-&gt;nx; else h=t-&gt;nx;
+    delete t;
+}
+void find(string s){
+    int i=1;
+    for(N* t=h;t;t=t-&gt;nx,i++) if(t-&gt;s==s){ cout&lt;&lt;&quot;Found at position &quot;&lt;&lt;i&lt;&lt;&quot;\n&quot;; return; }
+    cout&lt;&lt;&quot;Not found\n&quot;;
+}
+void rev(){ N *p=0,*c=h,*n; while(c){ n=c-&gt;nx; c-&gt;nx=p; p=c; c=n; } h=p; }
+void show(){ int i=1; for(N* t=h;t;t=t-&gt;nx) cout&lt;&lt;i++&lt;&lt;&quot;. &quot;&lt;&lt;t-&gt;s&lt;&lt;&quot;\n&quot;; if(!h) cout&lt;&lt;&quot;Playlist empty\n&quot;; }
+int main(){
+    int c,n; string s;
+    do{
+        cout&lt;&lt;&quot;\n1.Create 2.Add 3.Delete 4.Search 5.Reverse 6.Display 0.Exit: &quot;; cin&gt;&gt;c;
+        if(c==1){ cout&lt;&lt;&quot;How many songs: &quot;; cin&gt;&gt;n; while(n--){ cout&lt;&lt;&quot;Song: &quot;; cin&gt;&gt;ws; getline(cin,s); add(s); } }
+        else if(c==2){ cout&lt;&lt;&quot;Song: &quot;; cin&gt;&gt;ws; getline(cin,s); add(s); }
+        else if(c==3){ cout&lt;&lt;&quot;Song: &quot;; cin&gt;&gt;ws; getline(cin,s); del(s); }
+        else if(c==4){ cout&lt;&lt;&quot;Song: &quot;; cin&gt;&gt;ws; getline(cin,s); find(s); }
+        else if(c==5) rev();
+        else if(c==6) show();
+    }while(c);
+}</code></pre>
+<h2>12. Circular doubly linked list: photo gallery</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct N{ string s; N *nx, *pv; };
+N *h=0, *cur=0;                                 // circular doubly linked list
+void add(string s){
+    N* n=new N{s,0,0};
+    if(!h){ h=cur=n; n-&gt;nx=n-&gt;pv=n; }
+    else { N* t=h-&gt;pv; t-&gt;nx=n; n-&gt;pv=t; n-&gt;nx=h; h-&gt;pv=n; }
+}
+int main(){
+    int c; string s;
+    do{
+        cout&lt;&lt;&quot;\n1.Add photo 2.Next 3.Previous 4.Show all 5.Slideshow(loop) 0.Exit: &quot;; cin&gt;&gt;c;
+        if(c==1){ cout&lt;&lt;&quot;Photo name: &quot;; cin&gt;&gt;s; add(s); }
+        else if(c&gt;=2 &amp;&amp; c&lt;=5 &amp;&amp; !h) cout&lt;&lt;&quot;Gallery empty\n&quot;;
+        else if(c==2){ cur=cur-&gt;nx; cout&lt;&lt;&quot;Now: &quot;&lt;&lt;cur-&gt;s&lt;&lt;&quot;\n&quot;; }
+        else if(c==3){ cur=cur-&gt;pv; cout&lt;&lt;&quot;Now: &quot;&lt;&lt;cur-&gt;s&lt;&lt;&quot;\n&quot;; }
+        else if(c==4){ N* t=h; do{ cout&lt;&lt;t-&gt;s&lt;&lt;(t==cur?&quot;  &lt;-- current&quot;:&quot;&quot;)&lt;&lt;&quot;\n&quot;; t=t-&gt;nx; }while(t!=h); }
+        else if(c==5){ N* t=cur; for(int i=0;i&lt;10;i++){ cout&lt;&lt;t-&gt;s&lt;&lt;&quot; -&gt; &quot;; t=t-&gt;nx; } cout&lt;&lt;&quot;...\n&quot;; }
+    }while(c);
+}</code></pre>
+</body>
+</html>
